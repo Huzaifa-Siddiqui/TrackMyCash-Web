@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="TrackMyCash - Your ultimate financial hub for expense tracking and money management">
+  <meta name="theme-color" content="#0F172A">
+  <title>TrackMyCash | Smart Financial Management</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="./logo.png">
+  
+  <!-- Core Scripts -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/typewriter-effect@latest/dist/core.js"></script>
+  
+  <!-- Styles -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+  
+  <!-- Custom Styles -->
+  <style>
+    ::selection {
+      background: #0F172A;
+      color: #ffffff;
+    }
+    .animate-float {
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0px); }
+    }
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #ffffff 0%, #94A3B8 50%, #64748B 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .hero-gradient {
+      background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-gradient::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    }
+    .card-hover {
+      transition: all 0.3s ease;
+      border: 1px solid rgba(148, 163, 184, 0.1);
+    }
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 20px rgba(15, 23, 42, 0.1);
+      border-color: rgba(148, 163, 184, 0.2);
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #ffffff 0%, #F8FAFC 100%);
+      color: #0F172A;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
+    }
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+    .navbar-brand {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ffffff 0%, #94A3B8 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.5px;
+    }
+    .typewriter > * {
+      overflow: hidden;
+      border-right: .15em solid white;
+      white-space: nowrap;
+      margin: 0 auto;
+      animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+    }
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+    @keyframes blink-caret {
+      from, to { border-color: transparent }
+      50% { border-color: white; }
+    }
+    .testimonial-container {
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+      background: #F8FAFC;
+      padding: 2rem 0;
+    }
+    .testimonial-track {
+      display: flex;
+      animation: scroll 40s linear infinite;
+      width: max-content;
+      gap: 1.5rem;
+      padding: 0 1.5rem;
+    }
+    .testimonial-track:hover {
+      animation-play-state: paused;
+    }
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(calc(-280px * 5)); }
+    }
+    .testimonial-card {
+      flex: 0 0 260px;
+      background: white;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    .testimonial-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+    .testimonial-card::before {
+      content: '"';
+      position: absolute;
+      top: -10px;
+      left: 10px;
+      font-size: 60px;
+      color: #E2E8F0;
+      font-family: serif;
+      opacity: 0.2;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    function App() {
+      React.useEffect(() => {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+            }
+          });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.animate-on-scroll').forEach((el) => observer.observe(el));
+
+        // Initialize Typewriter effect
+        const typewriter = new Typewriter('#typewriter-text', {
+          strings: ['Financial clarity at your fingertips'],
+          autoStart: true,
+          loop: true,
+          delay: 75
+        });
+        
+        return () => observer.disconnect();
+      }, []);
+
+      const testimonials = [
+        {
+          text: "TrackMyCash transformed how I manage my finances. It's intuitive and powerful!",
+          author: "Sarah Johnson",
+          role: "Entrepreneur",
+          rating: 5
+        },
+        {
+          text: "The best expense tracking app I've ever used. The AI features are game-changing.",
+          author: "Michael Chen",
+          role: "Product Manager",
+          rating: 5
+        },
+        {
+          text: "Finally, a financial tool that actually makes sense. Love the real-time insights!",
+          author: "Emma Davis",
+          role: "Freelancer",
+          rating: 5
+        },
+        {
+          text: "The dashboard analytics have helped me make better financial decisions.",
+          author: "James Wilson",
+          role: "Business Owner",
+          rating: 5
+        },
+        {
+          text: "Exceptional user experience. The mobile app is fantastic!",
+          author: "Lisa Zhang",
+          role: "Digital Nomad",
+          rating: 5
+        },
+        {
+          text: "Great for tracking both personal and business expenses. Highly recommended!",
+          author: "David Miller",
+          role: "Consultant",
+          rating: 5
+        },
+        {
+          text: "The budget forecasting feature is incredibly accurate and helpful.",
+          author: "Sophie Anderson",
+          role: "Financial Analyst",
+          rating: 5
+        },
+        {
+          text: "Best investment I've made for my financial organization.",
+          author: "Robert Taylor",
+          role: "Small Business Owner",
+          rating: 5
+        },
+        {
+          text: "The customer support team is amazing. They're always there to help!",
+          author: "Maria Garcia",
+          role: "Restaurant Owner",
+          rating: 5
+        },
+        {
+          text: "This app has completely changed how I view my spending habits.",
+          author: "Tom Parker",
+          role: "Software Engineer",
+          rating: 5
+        }
+      ];
+
+      return (
+        <div className="min-h-screen bg-white text-slate-900 font-['Inter']">
+          {/* Navbar */}
+          <nav className="navbar py-4">
+            <div className="max-w-6xl mx-auto px-6">
+              <div className="navbar-brand">
+                <img src="./logo.png" alt="TrackMyCash Logo" className="h-12 inline-block mr-3" />
+                TrackMyCash
+              </div>
+            </div>
+          </nav>
+
+          {/* Hero Section */}
+          <header className="hero-gradient text-white py-32 mt-8">
+            <div className="max-w-6xl mx-auto px-6">
+              <div className="grid lg:grid-cols-2 gap-20 items-center">
+                <div className="space-y-8 animate-on-scroll">
+                  <h1 className="text-5xl lg:text-7xl font-bold leading-tight tracking-tight">
+                    <span id="typewriter-text"></span>
+                  </h1>
+                  <p className="text-lg text-slate-400 leading-relaxed">
+                    Experience seamless expense tracking with intelligent automation and crystal-clear insights. Built for modern professionals.
+                  </p>
+                  <div className="flex gap-6">
+                    <a href="https://track-my-cash.vercel.app/" className="btn-primary px-8 py-3 rounded-full font-medium text-sm inline-block">
+                     Get Started
+                    </a>
+                  </div>
+                </div>
+                <div className="relative animate-on-scroll">
+                  <div className="absolute -inset-4 bg-gradient-to-r from-white/10 to-white/5 rounded-3xl blur-3xl animate-pulse"></div>
+                  <img 
+                    src="./dash.png" 
+                    alt="Dashboard Preview"
+                    className="relative rounded-3xl shadow-2xl animate-float"
+                  />
+                </div>
+              </div>
+            </div>
+          </header>
+
+          {/* Features Section */}
+          <section className="py-20">
+            <div className="max-w-6xl mx-auto px-6">
+              <div className="text-center mb-16 animate-on-scroll">
+                <h2 className="text-3xl font-bold tracking-tight text-slate-900">
+                  Thoughtfully crafted features
+                </h2>
+                <p className="text-slate-600 mt-2">Every detail refined for a seamless experience</p>
+              </div>
+              <div className="grid lg:grid-cols-3 gap-8">
+                {[
+                  {
+                    title: "Intelligent Scanning",
+                    description: "AI-powered receipt processing that works like magic",
+                    icon: "🔍"
+                  },
+                  {
+                    title: "Real-Time Analytics",
+                    description: "Beautiful, insightful reports at your command",
+                    icon: "📊"
+                  },
+                  {
+                    title: "Global Currencies",
+                    description: "Seamless handling of international transactions",
+                    icon: "🌍"
+                  },
+                  {
+                    title: "Smart Categories",
+                    description: "Automatic organization that learns your preferences",
+                    icon: "🏷️"
+                  },
+                  {
+                    title: "Bank Sync",
+                    description: "Secure, automated account synchronization",
+                    icon: "🏦"
+                  },
+                  {
+                    title: "Team Access",
+                    description: "Effortless collaboration with role-based controls",
+                    icon: "👥"
+                  }
+                ].map((feature, index) => (
+                  <div key={index} className="p-6 bg-white rounded-xl card-hover animate-on-scroll shadow-sm">
+                    <div className="text-3xl mb-4">{feature.icon}</div>
+                    <h3 className="text-lg font-semibold mb-2 text-slate-900">
+                      {feature.title}
+                    </h3>
+                    <p className="text-slate-600 text-sm">{feature.description}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Testimonials Section */}
+          <section className="py-16 bg-slate-50">
+            <div className="text-center mb-12">
+              <h2 className="text-2xl font-bold text-slate-900 animate-on-scroll">
+                What our users say
+              </h2>
+            </div>
+            <div className="testimonial-container">
+              <div className="testimonial-track">
+                {testimonials.map((testimonial, index) => (
+                  <div key={index} className="testimonial-card">
+                    <div className="flex items-center mb-3">
+                      {"⭐".repeat(testimonial.rating)}
+                    </div>
+                    <p className="text-slate-800 mb-4 text-sm leading-relaxed">{testimonial.text}</p>
+                    <div className="border-t border-slate-100 pt-3">
+                      <p className="font-medium text-slate-900 text-sm">{testimonial.author}</p>
+                      <p className="text-slate-500 text-xs">{testimonial.role}</p>
+                    </div>
+                  </div>
+                ))}
+                {testimonials.slice(0, 5).map((testimonial, index) => (
+                  <div key={`duplicate-${index}`} className="testimonial-card">
+                    <div className="flex items-center mb-3">
+                      {"⭐".repeat(testimonial.rating)}
+                    </div>
+                    <p className="text-slate-800 mb-4 text-sm leading-relaxed">{testimonial.text}</p>
+                    <div className="border-t border-slate-100 pt-3">
+                      <p className="font-medium text-slate-900 text-sm">{testimonial.author}</p>
+                      <p className="text-slate-500 text-xs">{testimonial.role}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* CTA Section */}
+          <section className="py-20 bg-slate-900 text-white relative overflow-hidden">
+            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMtOS45NDEgMC0xOCA4LjA1OS0xOCAxOHM4LjA1OSAxOCAxOCAxOGM5Ljk0MSAwIDE4LTguMDU5IDE4LTE4cy04LjA1OS0xOC0xOC0xOHptMCAyNmMtNC40MTEgMC04LTMuNTg5LTgtOHMzLjU4OS04IDgtOCA4IDMuNTg5IDggOC0zLjU4OSA4LTggOHoiIG9wYWNpdHk9Ii4xIiBmaWxsPSIjZmZmIi8+PC9nPjwvc3ZnPg==')] opacity-10"></div>
+            <div className="max-w-3xl mx-auto px-6 text-center relative">
+              <div className="animate-on-scroll">
+                <h2 className="text-3xl font-bold mb-4 gradient-text">Ready to take control?</h2>
+                <p className="text-slate-400 mb-8">Join thousands who've transformed their financial management</p>
+                <button className="btn-primary px-8 py-3 rounded-full font-medium text-sm">
+                  Begin Your Journey
+                </button>
+              </div>
+            </div>
+          </section>
+        </div>
+      );
+    }
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+</html>
